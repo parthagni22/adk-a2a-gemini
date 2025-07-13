@@ -45,7 +45,8 @@ class NotionAgent(BaseADKAgent):
                 examples=[
                     "Search for 'project documentation'",
                     "Find pages about 'meeting notes'",
-                    "Look for content related to 'Q3 planning'"
+                    "Look for content related to 'Q3 planning'",
+                    "Find pages about sermon_notes_dummy"
                 ]
             ),
             AgentSkill(

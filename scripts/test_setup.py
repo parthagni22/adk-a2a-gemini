@@ -123,6 +123,9 @@ async def test_simple_workflow() -> Tuple[bool, str]:
         from google.adk.models.lite_llm import LiteLlm
         from google.adk.runners import Runner
         from google.genai import types
+        from google.adk.sessions import InMemorySessionService
+        from google.adk.artifacts import InMemoryArtifactService
+        from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
         import config
         
         # Create simple test agent
@@ -133,18 +136,37 @@ async def test_simple_workflow() -> Tuple[bool, str]:
             instruction="You are a helpful test assistant. Respond briefly to user queries."
         )
         
-        # Create runner
+        # Create services
+        session_service = InMemorySessionService()
+        artifact_service = InMemoryArtifactService()
+        memory_service = InMemoryMemoryService()
+        
+        # Create runner with all required services
         runner = Runner(
             agent=test_agent,
-            app_name="workflow_test"
+            app_name="workflow_test",
+            session_service=session_service,
+            artifact_service=artifact_service,
+            memory_service=memory_service
         )
         
         print("  🤖 Testing basic agent interaction...")
         
+        # Create session first
+        user_id = "test_user"
+        session_id = "test_session"
+        
+        await session_service.create_session(
+            app_name="workflow_test",
+            user_id=user_id,
+            session_id=session_id,
+            state={}
+        )
+        
         # Test the workflow
         async for event in runner.run_async(
-            user_id="test_user",
-            session_id="test_session",
+            user_id=user_id,
+            session_id=session_id,
             new_message=types.Content(
                 role="user", 
                 parts=[types.Part(text="Hello! Please respond with a simple greeting.")]

@@ -40,10 +40,17 @@ class HostAgentRunner:
     def get_runner(_self):
         """Get or create the ADK runner (cached)."""
         try:
+            from google.adk.sessions import InMemorySessionService
+            from google.adk.artifacts import InMemoryArtifactService
+            from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
+            
             _self.agent = create_host_agent()
             _self.runner = Runner(
                 agent=_self.agent,
-                app_name=_self.app_name
+                app_name=_self.app_name,
+                session_service=InMemorySessionService(),
+                artifact_service=InMemoryArtifactService(),
+                memory_service=InMemoryMemoryService()
             )
             return _self.runner
         except Exception as e:
