@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adk-a2a-gemini"
+version = "1.0.0"
+description = "ADK A2A Multi-Agent System with Gemini, Notion, and ElevenLabs"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk>=1.2.1",
+    "a2a-sdk>=0.2.5",
+    "streamlit>=1.45.1",
+    "fastapi>=0.115.12",
+    "uvicorn[standard]>=0.34.3",
+    "httpx>=0.28.1",
+    "python-dotenv>=1.1.0",
+    "click>=8.0.0",
+    "litellm>=1.72.0",
+    "mcp>=1.0.0",
+    "pydantic>=2.0.0",
+    "aiofiles>=23.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "black>=25.1.0",
+    "isort>=5.13.0",
+    "mypy>=1.16.0",
+    "flake8>=7.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/adk-a2a-gemini"
+Repository = "https://github.com/yourusername/adk-a2a-gemini.git"
+Issues = "https://github.com/yourusername/adk-a2a-gemini/issues"
+
+[project.scripts]
+adk-agents = "scripts.start_agents:main"
+adk-test = "scripts.test_setup:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agents*", "core*", "ui*", "scripts*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
